@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Shake Light</string>
+    <string name="action_main">Main</string>
+    <string name="action_settings">Settings</string>
+    <string name="light_on">Light On</string>
+    <string name="light_off">Light Off</string>
+
+    <string name="about_version_Summary">Build 2019–03–15</string>
+    <string name="about_version_Title">App Version</string>
+    <string name="gravity_Title">Gravity threshold</string>
+    <string name="shake_Title">Time between shake events</string>
+    <string name="reset_Title">Time reset with no shake activity</string>
+    <string name="countdown_Title">Countdown Time</string>
+    <string name="btnSave">Save Settings</string>
+    <string name="btnReset">Reset Defaults</string>
+</resources>
