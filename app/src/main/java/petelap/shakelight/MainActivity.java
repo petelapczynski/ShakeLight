@@ -13,14 +13,16 @@ import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         ShakeCount = pref.getInt("shakes", 0);
         CountDownSubtract = (int)(( (float)THREAD_TIME_MS / (countDown / (float)THREAD_TIME_MS ) ) *-1 );
 
-        bLight = false;
+        bLight = pref.getBoolean("lightonoff",false);
 
         circleProgressBar = findViewById(R.id.custom_progressBar);
         circleProgressBar.setStrokeWidth(50f);
@@ -152,7 +154,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("appPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putInt("shakes", ShakeCount);
+        editor.putBoolean("lightonoff", bLight);
         editor.commit();
+        flashLightToggle(false);
 
         super.onPause();
     }
@@ -163,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
         // register the Session Manager Listener onResume
         mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
         circleProgressBar.setProgressWithAnimation(ShakeCount, 100);
+        flashLightToggle(bLight);
 
         handler = new Handler();
         runnable = new Runnable() {
@@ -216,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             } catch (CameraAccessException e) {
                 e.printStackTrace();
-                Toast.makeText(this,"Sorry there was a camera error!",Toast.LENGTH_SHORT);
+                Toast.makeText(this,"Sorry there was a camera error!",Toast.LENGTH_SHORT).show();
             }
         }
     }
